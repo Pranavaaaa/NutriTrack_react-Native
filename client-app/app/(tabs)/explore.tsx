@@ -6,6 +6,9 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { IconSymbol } from '@/components/ui/IconSymbol';
+import CalorieCounter from '@/components/calorie/CalorieCounter';
+
+
 
 export default function TabTwoScreen() {
   return (
@@ -21,6 +24,7 @@ export default function TabTwoScreen() {
       }>
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">Explore</ThemedText>
+        <CalorieCounter></CalorieCounter>
       </ThemedView>
       <ThemedText>This app includes example code to help you get started.</ThemedText>
       <Collapsible title="File-based routing">

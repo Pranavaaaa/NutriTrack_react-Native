@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes.js";
 import connectDB from "./config/db.js";
-
+import userRouter from "./routes/userRoutes.js";
 // Load environment variables
 dotenv.config();
 
@@ -17,6 +17,7 @@ app.use(express.json());
 connectDB();
 
 app.use("/auth", authRoutes);
+app.use("/user",userRouter);
 
 app.get("/", (req: Request, res: Response) => {
   res.json({ message: "Hello, TypeScript + Express + ES6!" });
