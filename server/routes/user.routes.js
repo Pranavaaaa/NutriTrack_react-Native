@@ -1,9 +1,9 @@
-const express = require('express');
-const { body } = require('express-validator');
-const userModel = require('../models/user.model');
-const router = express.Router();
-const userController = require('../controllers/user.controller');
-const authMiddlewares = require('../middlewares/auth.middleware');
+import express from 'express';
+import { body } from 'express-validator';
+import userController from '../controllers/user.controller';
+import authMiddlewares from '../middlewares/auth.middleware';
+import userModel from '../models/user.model';
+import router from './user.routes';
 
 router.post("/register", [
     body('email').isEmail().withMessage('Invalid email'),
