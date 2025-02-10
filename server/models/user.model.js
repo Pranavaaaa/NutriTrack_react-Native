@@ -3,29 +3,27 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const userSchema = new mongoose.Schema({
-    fullName: {
-      firstName: {
-        type: String,
-        required: true,
-      },
-      lastName: {
-        type: String,
-        required: false,
-      },
+    username: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique: true },
+    passwordHash: { type: String, required: true },
+    dietaryPreferences: [{ type: String, enum: ['vegetarian', 'vegan', 'keto', 'gluten-free'] }],
+    allergies: [{ type: String }],
+    healthGoals: { 
+      type: String, 
+      enum: ['weight-loss', 'muscle-gain', 'maintenance', 'improve-health'] 
     },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
+    physicalDetails: {
+      age: Number,
+      gender: { type: String, enum: ['male', 'female', 'other'] },
+      weight: Number, // in kg
+      height: Number  // in cm
     },
-    password: {
-      type: String,
-      required: true,
-      select: false, // to exclude password from query results (findOne kelyavr password show honar nahi)
+    activityLevel: { 
+      type: String, 
+      enum: ['sedentary', 'light', 'moderate', 'active', 'very-active'] 
     },
-    socketId: {
-      type: String,
-    },
+    profilePicture: String,
+    createdAt: { type: Date, default: Date.now }
 });
 
 userSchema.methods.generateAuthToken = function () {
