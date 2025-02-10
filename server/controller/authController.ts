@@ -75,6 +75,8 @@ export const register = async (
       username: user.username 
     });
     
+    console.log("User created successfully");
+    
     res.status(201).json({
       user: {
         id: user._id.toString(),
@@ -87,6 +89,7 @@ export const register = async (
       token
     });
   } catch (error) {
+    console.log("error occurred:",error);
     next(error);
   }
 };
@@ -117,6 +120,7 @@ export const login = async (
       id: user._id.toString(), 
       username: user.username 
     });
+    console.log("User logged in successfully");
     
     res.json({
       user: {
@@ -130,6 +134,7 @@ export const login = async (
       token
     });
   } catch (error) {
+    console.log("error occurred:",error);
     next(error);
   }
 };
