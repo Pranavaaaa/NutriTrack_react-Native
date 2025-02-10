@@ -1,6 +1,6 @@
-const userModel = require('../models/user.model.js');
-const userServices = require('../services/user.services.js');
-const { validationResult } = require('express-validator');
+import userModel from '../models/user.model.js';
+import userServices from '../services/user.services.js';
+import { validationResult } from 'express-validator';
 
 module.exports.registerUser = async (req, res, next) => {
     try {

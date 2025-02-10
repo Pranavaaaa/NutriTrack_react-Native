@@ -1,12 +1,14 @@
-const dotenv = require('dotenv');
-const express = require('express');
-const app = express();
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-const connectDB = require('./db/db.js'); 
+import express from 'express';
+import dotenv from 'dotenv';
+import cors from 'cors';
 dotenv.config();
-const bodyParser = require('body-parser');
-const userRoutes = require('./routes/user.routes.js');
+import app from './app.js';
+import cookieParser from 'cookie-parser';
+import connectDB from './db/db.js';
+import bodyParser from 'body-parser';
+import userRoutes from './routes/user.routes.js';
+
+
 
 const port = process.env.PORT || 4001;
 
