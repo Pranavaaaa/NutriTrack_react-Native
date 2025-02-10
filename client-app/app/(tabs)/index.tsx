@@ -1,11 +1,12 @@
-import { Image, StyleSheet, Platform } from 'react-native';
-
+import React from 'react';
+import { View, Text, StyleSheet, Image, Platform } from 'react-native';
+// import FloatingButtons from '../components/FloatingButtons';
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
-export default function HomeScreen() {
+const HomePage = () => {
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -16,13 +17,16 @@ export default function HomeScreen() {
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
+        <ThemedText type="title">Welcome to NutriTrack</ThemedText>
         <HelloWave />
+      </ThemedView>
+      <ThemedView style={styles.stepContainer}>
+        <ThemedText type="subtitle">Track your nutrition and health effortlessly!</ThemedText>
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="subtitle">Step 1: Try it</ThemedText>
         <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
+          Edit <ThemedText type="defaultSemiBold">app/(tabs)/HomePage.tsx</ThemedText> to see changes.
           Press{' '}
           <ThemedText type="defaultSemiBold">
             {Platform.select({
@@ -50,9 +54,12 @@ export default function HomeScreen() {
           <ThemedText type="defaultSemiBold">app-example</ThemedText>.
         </ThemedText>
       </ThemedView>
+      <View style={styles.floatingButtonsContainer}>
+        {/* <FloatingButtons /> */}
+      </View>
     </ParallaxScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   titleContainer: {
@@ -71,4 +78,11 @@ const styles = StyleSheet.create({
     left: 0,
     position: 'absolute',
   },
+  floatingButtonsContainer: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+  },
 });
+
+export default HomePage;
