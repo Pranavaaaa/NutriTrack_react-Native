@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Calendar } from "react-native-calendars";
+import axios from "axios";
 
-const API_BASE_URL = "http://localhost:4000/users/calories";
+const API_BASE_URL = "http://localhost:4000/user/calories";
 
 const CalorieCounter = () => {
   const getSelectedDate = () => {
@@ -17,9 +18,13 @@ const CalorieCounter = () => {
   const fetchData = async () => {
     try {
       console.log("Fetching data for date:", selectedDate);
-      const response = await fetch(`${API_BASE_URL}/calories/`);
-      const data = await response.json();
-      setCaldata(data);
+      const response = await axios.get(`${API_BASE_URL}`, {
+        params: { date: selectedDate },  // Sending selectedDate as a query parameter
+      });
+      const data = await response.data;
+      console.log("data: ",data.data);
+      
+      setCaldata(data.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -30,7 +35,7 @@ const CalorieCounter = () => {
   }, [selectedDate]);
 
   const Data = {
-    Breakfast: 100,
+    Breakfast: caldata.Breakfast,
     Lunch: 100,
     Dinner: 100,
     Snacks: 80,
@@ -40,7 +45,7 @@ const CalorieCounter = () => {
   };
 
   const totalCalories =
-    Data.Breakfast + Data.Lunch + Data.Dinner + Data.Snacks + Data.water;
+    caldata.breakfast + caldata.lunch + caldata.dinner + caldata.snacks ;
 
   const handleDateChange = (date) => {
     setSelectedDate(date.dateString);
@@ -64,20 +69,20 @@ const CalorieCounter = () => {
       {/* Calorie Overview */}
       <View style={styles.calorieOverview}>
         <Text style={styles.title}>Calorie Budget</Text>
-        <Text style={styles.value}>{Data.calorieBudget} kcal</Text>
+        <Text style={styles.value}>{caldata.calorieBudget} kcal</Text>
       </View>
 
       {/* Calories Consumed & Remaining */}
       <View style={styles.calorieDetails}>
         <Text style={styles.totalCalories}>Total: {totalCalories} kcal</Text>
         <Text style={styles.remainingCalories}>
-          Remaining: {Data.calorieBudget - totalCalories} kcal
+          Remaining: {caldata.calorieBudget - totalCalories} kcal
         </Text>
       </View>
 
       {/* Food Intake Grid */}
       <View style={styles.gridContainer}>
-        {Object.entries(Data).map(([key, value]) =>
+        {Object.entries(caldata).map(([key, value]) =>
           key !== "calorieBudget" ? (
             <View style={styles.gridItem} key={key}>
               <Text style={styles.label}>{key}</Text>
