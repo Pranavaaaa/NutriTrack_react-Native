@@ -13,6 +13,7 @@ const port = process.env.PORT || 4001;
 app.use(cors());
 app.use(bodyParser.json());  // to support JSON-encoded bodies
 app.use(express.json());
+
 app.use(express.urlencoded({ urlencoded : true }));
 app.use(cookieParser());
 
