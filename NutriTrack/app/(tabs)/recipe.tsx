@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, ActivityIndicator, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  ActivityIndicator,
+  StyleSheet,
+  ScrollView,
+  Image,
+} from "react-native";
 import axios from "axios";
 
 const RecipeSearchScreen: React.FC = () => {
@@ -13,7 +22,8 @@ const RecipeSearchScreen: React.FC = () => {
     setError(null);
     setRecipes([]);
 
-    const options = {
+    // Fetch recipe details
+    const optionsDetails = {
       method: "GET",
       url: "https://recipe-by-api-ninjas.p.rapidapi.com/v1/recipe",
       params: { query },
@@ -24,8 +34,23 @@ const RecipeSearchScreen: React.FC = () => {
     };
 
     try {
-      const response = await axios.request(options);
-      setRecipes(response.data);
+      const responseDetails = await axios.request(optionsDetails);
+
+      // Fetch recipe images from the second API
+      const optionsImages = {
+        method: "GET",
+        url: "https://www.themealdb.com/api/json/v1/1/filter.php?i=" + query,
+      };
+
+      const responseImages = await axios.request(optionsImages);
+
+      // Combine recipe details with images
+      const combinedRecipes = responseDetails.data.map((recipe: any, index: number) => ({
+        ...recipe,
+        image: responseImages.data.meals?.[index]?.strMealThumb || null,
+      }));
+
+      setRecipes(combinedRecipes);
     } catch (err) {
       setError("Failed to fetch recipes. Please try again.");
     } finally {
@@ -38,13 +63,15 @@ const RecipeSearchScreen: React.FC = () => {
       <Text style={styles.title}>Recipe Finder</Text>
       <TextInput
         style={styles.input}
-        placeholder="Enter a recipe name (e.g., Italian Wedding Soup)"
+        placeholder="Enter a recipe name (e.g., Chicken)"
         value={query}
         onChangeText={setQuery}
       />
       <Button title="Search Recipes" onPress={fetchRecipes} />
 
-      {loading && <ActivityIndicator size="large" color="#00f" style={styles.loader} />}
+      {loading && (
+        <ActivityIndicator size="large" color="#00f" style={styles.loader} />
+      )}
 
       {error && <Text style={styles.error}>{error}</Text>}
 
@@ -53,9 +80,21 @@ const RecipeSearchScreen: React.FC = () => {
           <Text style={styles.recipeTitle}>Results:</Text>
           {recipes.map((recipe, index) => (
             <View key={index} style={styles.recipeCard}>
-              <Text style={styles.recipeName}>Name: {recipe.title}</Text>
-              <Text>Ingredients: {recipe.ingredients}</Text>
-              <Text>Instructions: {recipe.instructions}</Text>
+              <Text style={styles.recipeName}>
+                {index + 1}. {recipe.title}
+              </Text>
+              {recipe.image && (
+                <Image
+                  source={{ uri: recipe.image }}
+                  style={styles.recipeImage}
+                />
+              )}
+              <Text style={styles.recipePoint}>
+                - Ingredients: {recipe.ingredients}
+              </Text>
+              <Text style={styles.recipePoint}>
+                - Instructions: {recipe.instructions}
+              </Text>
             </View>
           ))}
         </View>
@@ -115,6 +154,16 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 6,
+  },
+  recipeImage: {
+    width: "100%",
+    height: 150,
+    borderRadius: 8,
+    marginBottom: 10,
+  },
+  recipePoint: {
+    fontSize: 16,
+    marginBottom: 4,
   },
 });
 
