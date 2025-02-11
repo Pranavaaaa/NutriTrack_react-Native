@@ -21,7 +21,7 @@ const CalorieCounter = () => {
       const response = await axios.get(`${API_BASE_URL}`, { params: { date: selectedDate } });
       setCaldata(response.data.data || {});
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error fetching data:", error);       
     }
   };
 

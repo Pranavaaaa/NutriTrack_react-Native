@@ -52,7 +52,7 @@ export const registerUser = createAsyncThunk(
     profilePicture?: string;
   }, { rejectWithValue }) => {
     try {
-      const response = await axios.post('http://localhost:3000/auth/register', userData);
+      const response = await axios.post('http://localhost:4000/auth/register', userData);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Registration failed');
@@ -64,7 +64,7 @@ export const loginUser = createAsyncThunk(
   'auth/login',
   async (credentials: { email: string; password: string }, { rejectWithValue }) => {
     try {
-      const response = await axios.post('http://localhost:3000/auth/login', credentials);
+      const response = await axios.post('http://localhost:4000/auth/login', credentials);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Login failed');

@@ -7,6 +7,8 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import CalorieCounter from '@/components/calorie/CalorieCounter';
+import MealPlanning from './MealPlanning';
+
 
 
 
@@ -22,10 +24,11 @@ export default function TabTwoScreen() {
           style={styles.headerImage}
         />
       }>
-      <ThemedView style={styles.titleContainer}>
+      <ThemedView style={styles.titleContaianer}>
         <ThemedText type="title">Explore</ThemedText>
         <CalorieCounter></CalorieCounter>
       </ThemedView>
+      <MealPlanning></MealPlanning>
       <ThemedText>This app includes example code to help you get started.</ThemedText>
       <Collapsible title="File-based routing">
         <ThemedText>
