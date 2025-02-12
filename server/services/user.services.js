@@ -1,26 +1,27 @@
-import userModel from '../models/user.model';
+import userModel  from '../models/user.model.js';
 
-module.exports.createUser = async ({firstname, lastname, email, password}) => {
-    try{
-      
-        if(!firstname || !password || !email){
-            throw new Error('Missing required fields');
+const createUser = async ({ firstname, lastname, email, password }) => {
+    try {
+        if (!firstname || !password || !email) {
+            throw new Error("Missing required fields");
         }
 
-        const user = userModel.create({
+        const user = await userModel.create({
             fullName: {
-                firstName : firstname,
-                lastName : lastname
+                firstName: firstname,
+                lastName: lastname,
             },
             email,
-            password
+            password,
         });
 
         console.log(user, "user.services");
-        
+
         return user;
-    }
-    catch(error){
-        throw new Error(error);
+    } catch (error) {
+        throw new Error(error.message);
     }
 };
+
+// ✅ Correct export statement
+export default createUser;
